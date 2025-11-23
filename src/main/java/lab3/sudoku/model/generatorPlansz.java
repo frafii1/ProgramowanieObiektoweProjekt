@@ -92,7 +92,7 @@ public class generatorPlansz {
             int col = cellId % 9;
             
             if (board.getField(row, col).getValue() != 0) {
-                // ważne: przed usunięciem ustawiamy poprawną odpowiedź (correctValue)
+                //przed usunięciem usawi ć poprawną odpowiedź (correctValue)
                 board.getField(row, col).setCorrectValue(board.getField(row, col).getValue());
                 
                 board.getField(row, col).setValue(0); 
@@ -100,4 +100,5 @@ public class generatorPlansz {
             }
         }
     }
+
 }

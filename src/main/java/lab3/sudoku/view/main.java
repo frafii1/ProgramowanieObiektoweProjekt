@@ -46,8 +46,7 @@ public class main extends Application {
         // błędy + czas, generalnie glowny pasek
         infoLabel = new Label("Błędy: 0 / " + MAX_MISTAKES);
         infoLabel.getStyleClass().add("mistakes-label");
-
-        // pusty region, który "rozepcha" elementy (błędy po lewej, czas po prawej)
+        
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
@@ -97,7 +96,7 @@ public class main extends Application {
             secondsPlayed++;
             timerLabel.setText(formatTime(secondsPlayed));
         }));
-        timeline.setCycleCount(Animation.INDEFINITE); // powtarzaj w nieskończoność
+        timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
 
@@ -193,7 +192,7 @@ public class main extends Application {
                         mistakes++;
                         updateMistakesLabel();
                         
-                        // błędu + pogrubienie
+                        //błędu + pogrubienie
                         txt.setStyle("-fx-text-fill: #ff4444; -fx-font-weight: bold;");
                         
                         if (mistakes >= MAX_MISTAKES) {
@@ -251,7 +250,7 @@ public class main extends Application {
             }
         }
         stopTimer();
-        showAlert("Wygrana!", "Gratulacje! Twój czas: " + formatTime(secondsPlayed));
+        showAlert("Wygrana!", "Twój czas: " + formatTime(secondsPlayed));
     }
 
     private void showAlert(String title, String message) {
@@ -282,4 +281,5 @@ public class main extends Application {
     public static void main(String[] args) {
         launch();
     }
+
 }

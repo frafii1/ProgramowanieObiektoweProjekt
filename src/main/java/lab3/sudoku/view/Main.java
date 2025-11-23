@@ -19,7 +19,7 @@ import lab3.sudoku.model.generatorPlansz;
 
 import java.util.Optional;
 
-public class main extends Application {
+public class Main extends Application {
 
     private SudokuBoard modelBoard;
     private TextField[][] fieldsUI = new TextField[9][9];
@@ -283,3 +283,4 @@ public class main extends Application {
     }
 
 }
+

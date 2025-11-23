@@ -2,7 +2,7 @@ package lab3.sudoku.model;
 
 import java.util.Random;
 
-public class generatorPlansz {
+public class GeneratorPlansz {
     private SudokuBoard board;
     private Random random = new Random();
 
@@ -102,3 +102,4 @@ public class generatorPlansz {
     }
 
 }
+

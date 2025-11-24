@@ -3,6 +3,8 @@ package lab3.sudoku.model;
 /**
  *
  * @author Ążej
+ * tworzenie pojedynczego kwadratu na planszy w sudoku
+ * przechowuje wygenerowaną poprawną wartość planszy (jednego klocka) i informacje czy można edytować pole - isEditable
  */
 public class SudokuSingleField {
     private int value;
@@ -41,3 +43,4 @@ public class SudokuSingleField {
     public int getCorrectValue() { return correctValue; }
     public void setCorrectValue(int v) { this.correctValue = v; }
 }
+

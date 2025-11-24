@@ -19,6 +19,13 @@ import lab3.sudoku.model.generatorPlansz;
 
 import java.util.Optional;
 
+/**
+ * główna klasa widoku aplikacji = JavaFX
+ *  wyświetlanie planszy
+ *  obsługę UI timer, podświetlania, style.css 
+ * przekazywanie wpisów do SudokuGame
+ */
+
 public class Main extends Application {
 
     private SudokuBoard modelBoard;
@@ -283,4 +290,5 @@ public class Main extends Application {
     }
 
 }
+
 

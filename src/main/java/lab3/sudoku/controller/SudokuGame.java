@@ -3,6 +3,15 @@ package lab3.sudoku.controller;
 import lab3.sudoku.model.GeneratorPlansz;
 import lab3.sudoku.model.SudokuBoard;
 
+/**
+ * główna logika gry
+ *  klasa pełni rolę kontrolera (MVC):
+ *  przechowuje stan gry - aktualna plansza, liczba popełnionych błędów, czas)
+ *  sprawdza poprawność wpisów
+ *  obsługuje start nowej gry
+ *  zwraca wyniki ruchów do widoku
+  */
+
 public class SudokuGame {
 
     public enum MoveResult { OK, MISTAKE, WIN, LOSE, EMPTY }
@@ -107,3 +116,4 @@ public class SudokuGame {
         return true;
     }
 }
+

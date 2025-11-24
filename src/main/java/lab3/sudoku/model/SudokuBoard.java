@@ -3,6 +3,8 @@ package lab3.sudoku.model;
 /**
  *
  * @author Ążej
+ * reprezentacja całej planszy 9x9 wartości tworzy generator planszy
+ * przechowuje wszystkie 81 pól typu SudokuSingleField
  */
 public class SudokuBoard {
     public static final int SIZE = 9;
@@ -26,3 +28,4 @@ public class SudokuBoard {
         board[x][y].setEditable(false); 
     }
 }
+

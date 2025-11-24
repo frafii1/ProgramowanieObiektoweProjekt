@@ -4,7 +4,7 @@ repo pod kody do projektu na zaliczenie programowania obiektowego
 Poniżej spis funkcjonalności jakie spełnia aplikacja
 
  Przed rozpoczęciem:
-- generuje w pełni plansze standardową planszę sudoku 9x9
+- generuje w pełni standardową planszę sudoku 9x9
 - rozdziela planszę na czytelne bloki 3x3
 - aplikacja rozwiązuję uprzednio wygenerowaną planszę
 - usuwa odpowiednią ilość wartości z pól (SudokuSingleField) w zależności od wybranej trudności przez gracza i zapisuje jaka wartość uprzednio się tam znajdowała (klasa correctValue)

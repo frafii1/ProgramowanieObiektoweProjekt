@@ -2,6 +2,12 @@ package lab3.sudoku.model;
 
 import java.util.Random;
 
+/**
+ * generator pełnej planszy sudoku
+ * Tworzy losowe, poprawne sudoku 9x9, rozwiązuje je i usuwa określoną liczbę pól, aby stworzyć łamigłówkę
+ * Używany w SudokuGame do generowania nowych gier.
+ */
+
 public class GeneratorPlansz {
     private SudokuBoard board;
     private Random random = new Random();
@@ -102,4 +108,5 @@ public class GeneratorPlansz {
     }
 
 }
+
 

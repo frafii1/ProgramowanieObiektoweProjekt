@@ -3,6 +3,8 @@ repo pod kody do projektu na zaliczenie programowania obiektowego
 <br>
 <br>
 
+
+
 # Poniżej spis funkcjonalności jakie spełnia aplikacja
 
  ### Przed rozpoczęciem:

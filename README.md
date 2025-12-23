@@ -89,7 +89,7 @@ Aplikacja umożliwia grę w Sudoku 9×9 z wyborem poziomu trudności, walidacją
 
 ## Wymagania niefunkcjonalne 
 
-### 1. Użyteczność (Usability)
+### 1. Użyteczność 
 - Interfejs użytkownika jest czytelny i intuicyjny.
 - Kolory używane do oznaczania poprawnych i błędnych pól są jednoznaczne.
 - Podświetlanie wierszy, kolumn i takich samych cyfr poprawia przejrzystość gry.

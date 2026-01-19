@@ -111,8 +111,9 @@ public class SudokuGame {
     private boolean checkWin() {
         for (int i = 0; i < 9; i++)
             for (int j = 0; j < 9; j++)
-                if (modelBoard.getField(i, j).getValue() == 0)
-                    return false;
+                if (field.getValue() != field.getCorrectValue()) {  
+                 return false;
+                }
         return true;
     }
 }

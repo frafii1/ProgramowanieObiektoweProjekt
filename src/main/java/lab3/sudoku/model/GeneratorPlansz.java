@@ -17,6 +17,9 @@ public class GeneratorPlansz {
     }
 
     public SudokuBoard generate(int filledFields) {
+        if (filledFields < 0) filledFields = 0;
+        if (filledFields > 81) filledFields = 81;
+
         board = new SudokuBoard();
         fillDiagonal(); //wypelnienie blokow
         solve(0, 0);
@@ -108,6 +111,7 @@ public class GeneratorPlansz {
     }
 
 }
+
 
 
 

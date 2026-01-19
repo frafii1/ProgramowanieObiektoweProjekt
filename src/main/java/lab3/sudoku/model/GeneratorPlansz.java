@@ -12,7 +12,7 @@ public class GeneratorPlansz {
     private SudokuBoard board;
     private Random random = new Random();
 
-    public generatorPlansz() {
+    public GeneratorPlansz() {
         this.board = new SudokuBoard();
     }
 
@@ -108,5 +108,6 @@ public class GeneratorPlansz {
     }
 
 }
+
 
 

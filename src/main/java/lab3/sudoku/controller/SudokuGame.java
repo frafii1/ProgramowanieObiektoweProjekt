@@ -4,12 +4,16 @@ import lab3.sudoku.model.GeneratorPlansz;
 import lab3.sudoku.model.SudokuBoard;
 
 /**
- * główna logika gry
- *  klasa pełni rolę kontrolera (MVC):
- *  przechowuje stan gry - aktualna plansza, liczba popełnionych błędów, czas)
- *  sprawdza poprawność wpisów
- *  obsługuje start nowej gry
- *  zwraca wyniki ruchów do widoku
+ * @Author Ążej
+ * Główna klasa realizująca logikę biznesową gry (warstwa Controller w MVC).
+ * <p>
+ * Klasa ta zarządza cyklem życia rozgrywki, odpowiadając za:
+ * <ul>
+ * <li>Przechowywanie bieżącego stanu gry (plansza, liczniki błędów, czas).</li>
+ * <li>Inicjalizację nowej rozgrywki i generowanie planszy.</li>
+ * <li>Walidację ruchów gracza w czasie rzeczywistym.</li>
+ * <li>Określanie warunków zwycięstwa lub porażki.</li>
+ * </ul>
   */
 
 public class SudokuGame {
@@ -117,7 +121,5 @@ private boolean checkWin() {
         }
     }
     return true;
-  }
+    }
 }
-
-

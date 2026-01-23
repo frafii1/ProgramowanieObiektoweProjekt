@@ -1,0 +1,133 @@
+package lab3.sudoku.service;
+
+import lab3.sudoku.model.SudokuBoard;
+
+/**
+ * @author Ążej
+ * Walidator logiki Sudoku.
+ * Sprawdza poprawność planszy dla wierszy, kolumn oraz bloków 3x3.
+ *
+ * Założenia:
+ * - wartość 0 oznacza puste pole i jest ignorowana w walidacji duplikatów,
+ * - wartości dozwolone: 0..9,
+ * - plansza 9x9 (SudokuBoard.SIZE == 9).
+ */
+public final class BoardValidator {
+
+    private BoardValidator() {
+        // do statycznych zeby gupich wpadek nie bylo hehe 
+    }
+
+    /**
+     * Sprawdza, czy cała plansza jest zgodna z zasadami sudoku
+     * @param board plansza do sprawdzenia
+     * @return true jeśli poprawna, false zle
+     */
+    public static boolean isValid(SudokuBoard board) {
+        if (board == null) return false;
+
+        for (int i = 0; i < SudokuBoard.SIZE; i++) {
+            if (!isRowValid(board, i)) return false;
+            if (!isColumnValid(board, i)) return false;
+        }
+
+        for (int r = 0; r < SudokuBoard.SIZE; r += 3) {
+            for (int c = 0; c < SudokuBoard.SIZE; c += 3) {
+                if (!isBoxValid(board, r, c)) return false;
+            }
+        }
+
+        return true;
+    }
+
+    //pojedynczy wiersz
+    public static boolean isRowValid(SudokuBoard board, int row) {
+        if (board == null) return false;
+        if (row < 0 || row >= SudokuBoard.SIZE) return false;
+
+        boolean[] seen = new boolean[10]; // index 1..9
+        for (int col = 0; col < SudokuBoard.SIZE; col++) {
+            int v = board.getField(row, col).getValue();
+            if (!isValueAllowed(v)) return false;
+            if (v == 0) continue;
+
+            if (seen[v]) return false;
+            seen[v] = true;
+        }
+        return true;
+    }
+
+//pojedyncza kolumna
+    public static boolean isColumnValid(SudokuBoard board, int col) {
+        if (board == null) return false;
+        if (col < 0 || col >= SudokuBoard.SIZE) return false;
+
+        boolean[] seen = new boolean[10];
+        for (int row = 0; row < SudokuBoard.SIZE; row++) {
+            int v = board.getField(row, col).getValue();
+            if (!isValueAllowed(v)) return false;
+            if (v == 0) continue;
+
+            if (seen[v]) return false;
+            seen[v] = true;
+        }
+        return true;
+    }
+
+    /**
+     * blok 3x3.
+     *
+     * @param startRow początkowy wiersz bloku (0,3,6)
+     * @param startCol początkowa kolumna bloku (0,3,6)
+     */
+    public static boolean isBoxValid(SudokuBoard board, int startRow, int startCol) {
+        if (board == null) return false;
+        if (startRow < 0 || startRow > 6) return false;
+        if (startCol < 0 || startCol > 6) return false;
+        if (startRow % 3 != 0 || startCol % 3 != 0) return false;
+
+        boolean[] seen = new boolean[10];
+        for (int r = startRow; r < startRow + 3; r++) {
+            for (int c = startCol; c < startCol + 3; c++) {
+                int v = board.getField(r, c).getValue();
+                if (!isValueAllowed(v)) return false;
+                if (v == 0) continue;
+
+                if (seen[v]) return false;
+                seen[v] = true;
+            }
+        }
+        return true;
+    }
+
+
+     // Sprawdza, czy wstawienie liczby w dane pole jest dozwolone zgodnie z zasadami sudoku
+
+    public static boolean canPlace(SudokuBoard board, int row, int col, int value) {
+        if (board == null) return false;
+        if (row < 0 || row >= SudokuBoard.SIZE || col < 0 || col >= SudokuBoard.SIZE) return false;
+        if (value < 1 || value > 9) return false;
+
+        // wiersz i kolumny
+        for (int i = 0; i < SudokuBoard.SIZE; i++) {
+            if (i != col && board.getField(row, i).getValue() == value) return false;
+            if (i != row && board.getField(i, col).getValue() == value) return false;
+        }
+
+        // blok 3x3
+        int startRow = row - (row % 3);
+        int startCol = col - (col % 3);
+        for (int r = startRow; r < startRow + 3; r++) {
+            for (int c = startCol; c < startCol + 3; c++) {
+                if (r == row && c == col) continue;
+                if (board.getField(r, c).getValue() == value) return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static boolean isValueAllowed(int v) {
+        return v >= 0 && v <= 9;
+    }
+}

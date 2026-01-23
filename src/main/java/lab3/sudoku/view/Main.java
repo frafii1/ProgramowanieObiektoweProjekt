@@ -15,20 +15,16 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lab3.sudoku.model.SudokuBoard;
-import lab3.sudoku.model.generatorPlansz;
+import lab3.sudoku.model.GeneratorPlansz;
 
 import java.util.Optional;
 
 /**
  * @author Ążej
- * Główna klasa widoku aplikacji oparta na bibliotece JavaFX.
- * <p>
- * Klasa odpowiada za warstwę prezentacji, w tym:
- * <ul>
- * <li>wyświetlanie planszy gry,</li>
- * <li>obsługę elementów UI (timer, podświetlania, ładowanie style.css),</li>
- * <li>przekazywanie wpisów użytkownika do logiki gry (klasy {@code SudokuGame}).</li>
- * </ul>
+ * główna klasa widoku aplikacji = JavaFX
+ *  wyświetlanie planszy
+ *  obsługę UI timer, podświetlania, style.css 
+ * przekazywanie wpisów do SudokuGame
  */
 
 public class Main extends Application {
@@ -44,12 +40,26 @@ public class Main extends Application {
     private Timeline timeline;
     private int secondsPlayed = 0;
 
+    /**
+     * Główna metoda startowa aplikacji JavaFX.
+     * <p>
+     * Odpowiada za:
+     * <ol>
+     * <li>Wyświetlenie okna wyboru poziomu trudności.</li>
+     * <li>Inicjalizację modelu i generatora plansz.</li>
+     * <li>Zbudowanie interfejsu graficznego (GridPane, VBox).</li>
+     * <li>Załadowanie stylów CSS.</li>
+     * <li>Uruchomienie licznika czasu.</li>
+     * </ol>
+     *
+     * @param stage Główny kontener (okno) aplikacji dostarczany przez platformę JavaFX.
+     */
     @Override
     public void start(Stage stage) {
         int fieldsToFill = showDifficultyDialog();
         if (fieldsToFill == -1) return;
 
-        generatorPlansz generator = new generatorPlansz();
+        GeneratorPlansz generator = new GeneratorPlansz();
         SudokuBoard fullBoard = generator.generate(81);
         
         modelBoard = new SudokuBoard();
@@ -117,14 +127,30 @@ public class Main extends Application {
             timeline.stop();
         }
     }
-
+     /**
+     * Formatuje czas w sekundach do formatu MM:SS.
+     *
+     * @param totalSeconds Liczba sekund, która upłynęła.
+     * @return Sformatowany ciąg znaków (np. "05:30").
+     */
     private String formatTime(int totalSeconds) {
         int minutes = totalSeconds / 60;
         int seconds = totalSeconds % 60;
         return String.format("%02d:%02d", minutes, seconds);
     }
 
-    // logika gry i podświetlenia
+    /**
+     * Obsługuje logikę wizualnego podświetlania pól na planszy.
+     * <p>
+     * Metoda wykonuje dwie akcje:
+     * <ul>
+     * <li>Podświetla "krzyżowo" wiersz i kolumnę zaznaczonego pola.</li>
+     * <li>Podświetla wszystkie inne pola na planszy zawierające tę samą wartość.</li>
+     * </ul>
+     *
+     * @param selectedRow Indeks wiersza zaznaczonego pola.
+     * @param selectedCol Indeks kolumny zaznaczonego pola.
+     */
     private void highlightBoard(int selectedRow, int selectedCol) {
         String valToHighlight = fieldsUI[selectedRow][selectedCol].getText();
         for (int r = 0; r < 9; r++) {
@@ -144,7 +170,21 @@ public class Main extends Application {
             }
         }
     }
-
+    /**
+     * Tworzy i konfiguruje pojedyncze pole tekstowe (komórkę) siatki Sudoku.
+     * <p>
+     * Metoda odpowiada za:
+     * <ul>
+     * <li>Ustawienie rozmiaru i klas CSS (w tym grubych krawędzi dla bloków 3x3).</li>
+     * <li>Dodanie obsługi zdarzeń myski i klawiatury (nawigacja strzałkami).</li>
+     * <li>Walidację wprowadzanej wartości (tylko cyfry, sprawdzanie poprawności z modelem).</li>
+     * <li>Obsługę warunków wygranej/przegranej po wpisaniu wartości.</li>
+     * </ul>
+     *
+     * @param row Indeks wiersza tworzonego pola.
+     * @param col Indeks kolumny tworzonego pola.
+     * @return Skonfigurowany obiekt {@code TextField}.
+     */
     private TextField createTextField(int row, int col) {
         TextField txt = new TextField();
         txt.setPrefSize(55, 55);
@@ -226,7 +266,10 @@ public class Main extends Application {
         return txt;
     }
     
-    // metoda zmieniająca kolor napisu błędów
+    /**
+     * Aktualizuje tekst licznika błędów i zmienia jego styl na ostrzegawczy,
+     * gdy gracz zbliża się do limitu przegranej.
+     */
     private void updateMistakesLabel() {
         infoLabel.setText("Błędy: " + mistakes + " / " + MAX_MISTAKES);
         if (mistakes >= 2) {
@@ -235,7 +278,14 @@ public class Main extends Application {
         }
     }
 
-    //generowanie tabel 9x9
+    /**
+     * Przygotowuje nową rozgrywkę poprzez skopiowanie poprawnej planszy do modelu
+     * i odkrycie określonej liczby pól losowo.
+     *
+     * @param source W pełni rozwiązana plansza (źródłowa).
+     * @param target Plansza modelu gry (częściowo zakryta).
+     * @param filledCount Liczba pól, które mają zostać odkryte na starcie.
+     */
     private void prepareGame(SudokuBoard source, SudokuBoard target, int filledCount) {
         for(int i=0; i<9; i++) {
             for(int j=0; j<9; j++) {
@@ -295,7 +345,4 @@ public class Main extends Application {
     }
 
 }
-
-
-
 

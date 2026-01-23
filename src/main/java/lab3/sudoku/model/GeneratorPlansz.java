@@ -8,59 +8,68 @@ import java.util.Random;
  * <p>
  * Algorytm generowania przebiega w trzech głównych krokach:
  * <ol>
- * <li>Wypełnienie losowymi liczbami bloków 3x3 na przekątnej (są one niezależne od siebie).</li>
- * <li>Rozwiązanie reszty planszy przy użyciu algorytmu z nawrotami (ang. <i>backtracking</i>), aby uzyskać pełną, poprawną planszę.</li>
- * <li>Losowe usunięcie określonej liczby cyfr, przy jednoczesnym zachowaniu poprawnego rozwiązania w polu {@code correctValue}.</li>
+ * <li>Wypełnienie losowymi liczbami bloków 3x3 na przekątnej.</li>
+ * <li>Rozwiązanie reszty planszy przy użyciu backtracking.</li>
+ * <li>Losowe usunięcie określonej liczby cyfr (ustawiając correctValue przed usunięciem).</li>
  * </ol>
  */
+public class GeneratorPlansz extends AbstractSudokuGenerator {
 
-public class GeneratorPlansz {
     private SudokuBoard board;
-    private Random random = new Random();
+    private final Random random = new Random();
 
     public GeneratorPlansz() {
         this.board = new SudokuBoard();
     }
+
     /**
-     * Główna metoda generująca gotową do gry łamigłówkę.
-     * <p>
-     * Metoda tworzy pełną planszę, a następnie usuwa z niej nadmiarowe pola,
-     * pozostawiając jedynie zadaną liczbę wypełnionych komórek (wskazówek).
-     *
-     * @param filledFields Liczba pól, które mają pozostać wypełnione (poziom trudności).
-     * Wartość jest automatycznie przycinana do zakresu 0-81.
-     * @return Obiekt {@link SudokuBoard} przygotowany do rozgrywki.
+     * abstract method.
+     * Generuje pełną, rozwiązaną planszę.
      */
-    public SudokuBoard generate(int filledFields) {
-        if (filledFields < 0) filledFields = 0;
-        if (filledFields > 81) filledFields = 81;
-
+    @Override
+    protected SudokuBoard generateSolvedBoard() {
         board = new SudokuBoard();
-        fillDiagonal(); //wypelnienie blokow
-        solve(0, 0);
+        fillDiagonal();
+        boolean solved = solve(0, 0);
 
-        //poziom trudnosci
-        removeDigits(81 - filledFields);
+        if (!solved) {
+            throw new IllegalStateException("Nie udało się wygenerować poprawnej planszy Sudoku (solver failed).");
+        }
 
         return board;
     }
 
     /**
-     * Rekurencyjna metoda rozwiązująca Sudoku (algorytm Backtracking).
-     * <p>
-     * Przechodzi po planszy pole po polu. Jeśli napotka puste pole,
-     * próbuje wstawić cyfry od 1 do 9, sprawdzając ich poprawność.
-     *
-     * @param row Aktualny indeks wiersza.
-     * @param col Aktualny indeks kolumny.
-     * @return {@code true} jeśli uda się rozwiązać planszę od tego momentu,
-     * {@code false} jeśli trzeba się cofnąć (nawrót).
+     * Główna metoda generująca gotową do gry łamigłówkę.
+     * @param filledFields liczba pól, które mają pozostać wypełnione (0..81)
+     * @return plansza do gry
      */
+    @Override
+    public SudokuBoard generate(int filledFields) {
+        if (filledFields < 0) filledFields = 0;
+        if (filledFields > 81) filledFields = 81;
+
+        // 1) najpierw generujemy PEŁNE rozwiązanie
+        SudokuBoard solved = generateSolvedBoard();
+
+        // 2) ustaw correctValue dla WSZYSTKICH pól (ważne dla sprawdzania ruchów)
+        for (int r = 0; r < SudokuBoard.SIZE; r++) {
+            for (int c = 0; c < SudokuBoard.SIZE; c++) {
+                solved.getField(r, c).setCorrectValue(solved.getField(r, c).getValue());
+            }
+        }
+
+        // 3) usuwamy pola (zostaje filledFields wypełnionych)
+        removeDigits(81 - filledFields);
+
+        return solved;
+    }
+
     private boolean solve(int row, int col) {
-        if (col == 9) { 
+        if (col == 9) {
             col = 0;
             row++;
-            if (row == 9) return true; 
+            if (row == 9) return true;
         }
 
         if (board.getField(row, col).getValue() != 0) {
@@ -76,22 +85,7 @@ public class GeneratorPlansz {
         }
         return false;
     }
-    
-    /**
-     * Sprawdza, czy wstawienie danej liczby w określone pole jest zgodne z zasadami Sudoku.
-     * <p>
-     * Weryfikuje:
-     * <ul>
-     * <li>Unikalność w wierszu.</li>
-     * <li>Unikalność w kolumnie.</li>
-     * <li>Unikalność w bloku 3x3.</li>
-     * </ul>
-     *
-     * @param row Indeks wiersza.
-     * @param col Indeks kolumny.
-     * @param num Wstawiana liczba.
-     * @return {@code true} jeśli ruch jest dozwolony.
-     */
+
     private boolean isValid(int row, int col, int num) {
         for (int i = 0; i < 9; i++) {
             if (board.getField(row, i).getValue() == num) return false;
@@ -139,18 +133,13 @@ public class GeneratorPlansz {
             int cellId = random.nextInt(81);
             int row = cellId / 9;
             int col = cellId % 9;
-            
+
             if (board.getField(row, col).getValue() != 0) {
-                //przed usunięciem usawi ć poprawną odpowiedź (correctValue)
-                board.getField(row, col).setCorrectValue(board.getField(row, col).getValue());
-                
-                board.getField(row, col).setValue(0); 
+
+                board.getField(row, col).setValue(0);
+                board.getField(row, col).setEditable(true); // usunięte pole powinno być edytowalne
                 countToRemove--;
             }
         }
     }
-
 }
-
-
-

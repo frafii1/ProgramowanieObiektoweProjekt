@@ -2,6 +2,7 @@ package lab3.sudoku.controller;
 
 import lab3.sudoku.model.GeneratorPlansz;
 import lab3.sudoku.model.SudokuBoard;
+import lab3.sudoku.exception.SudokuException;
 
 /**
  * @Author Ążej
@@ -18,11 +19,11 @@ import lab3.sudoku.model.SudokuBoard;
 
 public class SudokuGame {
 
-    public enum MoveResult { OK, MISTAKE, WIN, LOSE, EMPTY }
+    public enum MoveResult { OK, MISTAKE, WIN, LOSE, EMPTY, INVALID, NOT_EDITABLE }
 
     private SudokuBoard modelBoard;
     private int mistakes = 0;
-    private final int MAX_MISTAKES = 3;
+    private static final int MAX_MISTAKES = 3;
 
     private int secondsPlayed = 0;
 
@@ -86,7 +87,15 @@ public class SudokuGame {
             }
         }
     }
-
+    if (modelBoard == null) {
+        throw new SudokuException("Game not initialized");
+    }
+    if (row < 0 || row > 8 || col < 0 || col > 8) {
+        return MoveResult.INVALID;
+    }
+    if (!modelBoard.getField(row, col).isEditable()) {
+        return MoveResult.NOT_EDITABLE;
+    }
     //poruszanie sie po planszy
     public MoveResult handleInput(int row, int col, String newVal) {
     if (newVal == null || newVal.isEmpty()) {
@@ -123,3 +132,4 @@ private boolean checkWin() {
     return true;
     }
 }
+

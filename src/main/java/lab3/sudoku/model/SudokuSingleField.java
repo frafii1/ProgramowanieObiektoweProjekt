@@ -1,5 +1,7 @@
 package lab3.sudoku.model;
 
+import lab3.sudoku.exception.SudokuException;
+
 /**
  *
  * @author Ążej
@@ -43,4 +45,5 @@ public class SudokuSingleField {
     public int getCorrectValue() { return correctValue; }
     public void setCorrectValue(int v) { this.correctValue = v; }
 }
+
 

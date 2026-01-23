@@ -1,5 +1,7 @@
 package lab3.sudoku.model;
 
+import lab3.sudoku.exception.SudokuException;
+
 /**
  *
  * @author Ążej
@@ -47,3 +49,4 @@ public class SudokuBoard {
         board[x][y].setEditable(false); 
     }
 }
+

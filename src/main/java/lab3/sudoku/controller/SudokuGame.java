@@ -49,7 +49,6 @@ public class SudokuGame {
         return ++secondsPlayed;
     }
 
-    // metoda statyczna (pod rubrykę)
     public static String formatTime(int totalSeconds) {
         int minutes = totalSeconds / 60;
         int seconds = totalSeconds % 60;
@@ -144,3 +143,4 @@ public class SudokuGame {
         return true;
     }
 }
+

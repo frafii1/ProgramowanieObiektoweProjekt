@@ -4,9 +4,14 @@ import java.util.Random;
 
 /**
  * @author Ążej
- * generator pełnej planszy sudoku
- * Tworzy losowe, poprawne sudoku 9x9, rozwiązuje je i usuwa określoną liczbę pól, aby stworzyć łamigłówkę
- * Używany w SudokuGame do generowania nowych gier.
+ * Klasa narzędziowa odpowiedzialna za generowanie nowych plansz Sudoku.
+ * <p>
+ * Algorytm generowania przebiega w trzech głównych krokach:
+ * <ol>
+ * <li>Wypełnienie losowymi liczbami bloków 3x3 na przekątnej (są one niezależne od siebie).</li>
+ * <li>Rozwiązanie reszty planszy przy użyciu algorytmu z nawrotami (ang. <i>backtracking</i>), aby uzyskać pełną, poprawną planszę.</li>
+ * <li>Losowe usunięcie określonej liczby cyfr, przy jednoczesnym zachowaniu poprawnego rozwiązania w polu {@code correctValue}.</li>
+ * </ol>
  */
 
 public class GeneratorPlansz {
@@ -16,7 +21,16 @@ public class GeneratorPlansz {
     public GeneratorPlansz() {
         this.board = new SudokuBoard();
     }
-
+    /**
+     * Główna metoda generująca gotową do gry łamigłówkę.
+     * <p>
+     * Metoda tworzy pełną planszę, a następnie usuwa z niej nadmiarowe pola,
+     * pozostawiając jedynie zadaną liczbę wypełnionych komórek (wskazówek).
+     *
+     * @param filledFields Liczba pól, które mają pozostać wypełnione (poziom trudności).
+     * Wartość jest automatycznie przycinana do zakresu 0-81.
+     * @return Obiekt {@link SudokuBoard} przygotowany do rozgrywki.
+     */
     public SudokuBoard generate(int filledFields) {
         if (filledFields < 0) filledFields = 0;
         if (filledFields > 81) filledFields = 81;
@@ -31,7 +45,17 @@ public class GeneratorPlansz {
         return board;
     }
 
-    // rozwiazywanie przez uzytkownika
+    /**
+     * Rekurencyjna metoda rozwiązująca Sudoku (algorytm Backtracking).
+     * <p>
+     * Przechodzi po planszy pole po polu. Jeśli napotka puste pole,
+     * próbuje wstawić cyfry od 1 do 9, sprawdzając ich poprawność.
+     *
+     * @param row Aktualny indeks wiersza.
+     * @param col Aktualny indeks kolumny.
+     * @return {@code true} jeśli uda się rozwiązać planszę od tego momentu,
+     * {@code false} jeśli trzeba się cofnąć (nawrót).
+     */
     private boolean solve(int row, int col) {
         if (col == 9) { 
             col = 0;
@@ -52,7 +76,22 @@ public class GeneratorPlansz {
         }
         return false;
     }
-
+    
+    /**
+     * Sprawdza, czy wstawienie danej liczby w określone pole jest zgodne z zasadami Sudoku.
+     * <p>
+     * Weryfikuje:
+     * <ul>
+     * <li>Unikalność w wierszu.</li>
+     * <li>Unikalność w kolumnie.</li>
+     * <li>Unikalność w bloku 3x3.</li>
+     * </ul>
+     *
+     * @param row Indeks wiersza.
+     * @param col Indeks kolumny.
+     * @param num Wstawiana liczba.
+     * @return {@code true} jeśli ruch jest dozwolony.
+     */
     private boolean isValid(int row, int col, int num) {
         for (int i = 0; i < 9; i++) {
             if (board.getField(row, i).getValue() == num) return false;
@@ -112,9 +151,6 @@ public class GeneratorPlansz {
     }
 
 }
-
-
-
 
 
 

@@ -21,10 +21,14 @@ import java.util.Optional;
 
 /**
  * @author Ążej
- * główna klasa widoku aplikacji = JavaFX
- * wyświetlanie planszy
- * obsługę UI timer, podświetlania, style.css 
- * przekazywanie wpisów do SudokuGame
+ * Główna klasa widoku aplikacji oparta na bibliotece JavaFX.
+ * <p>
+ * Klasa odpowiada za warstwę prezentacji, w tym:
+ * <ul>
+ * <li>wyświetlanie planszy gry,</li>
+ * <li>obsługę elementów UI (timer, podświetlania, ładowanie style.css),</li>
+ * <li>przekazywanie wpisów użytkownika do logiki gry (klasy {@code SudokuGame}).</li>
+ * </ul>
  */
 
 public class Main extends Application {
@@ -291,6 +295,7 @@ public class Main extends Application {
     }
 
 }
+
 
 
 

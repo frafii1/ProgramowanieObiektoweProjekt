@@ -1,6 +1,7 @@
 package lab3.sudoku.model;
 
 import java.util.Random;
+import lab3.sudoku.exception.SudokuException;
 
 /**
  * @author Ążej
@@ -143,3 +144,4 @@ public class GeneratorPlansz extends AbstractSudokuGenerator {
         }
     }
 }
+

@@ -7,7 +7,8 @@ package lab3.sudoku.view;
  */
 public class Aplikacja {
     public static void main(String[] args) {
-        main.main(args);
+        Main.main(args);
     }
 }
+
 

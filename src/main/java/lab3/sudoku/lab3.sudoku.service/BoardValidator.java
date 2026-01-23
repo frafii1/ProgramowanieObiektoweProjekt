@@ -1,6 +1,7 @@
 package lab3.sudoku.service;
 
 import lab3.sudoku.model.SudokuBoard;
+import lab3.sudoku.exception.SudokuException;
 
 /**
  * Walidator logiki Sudoku.

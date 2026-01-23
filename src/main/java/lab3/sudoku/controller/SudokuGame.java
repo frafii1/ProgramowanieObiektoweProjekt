@@ -85,36 +85,37 @@ public class SudokuGame {
 
     //poruszanie sie po planszy
     public MoveResult handleInput(int row, int col, String newVal) {
+    if (newVal == null || newVal.isEmpty()) {
+        return MoveResult.EMPTY;
+    }
 
-        if (newVal == null || newVal.isEmpty())
-            return MoveResult.EMPTY;
+    int entered;
+    try {
+        entered = Integer.parseInt(newVal);
+    } catch (NumberFormatException ex) {
+        return MoveResult.MISTAKE;
+    }
 
-        int entered = Integer.parseInt(newVal);
-        int correct = modelBoard.getField(row, col).getCorrectValue();
+    int correct = modelBoard.getField(row, col).getCorrectValue();
 
-        if (entered != correct) {
-            mistakes++;
-            if (mistakes >= MAX_MISTAKES) {
-                return MoveResult.LOSE;
+    if (entered != correct) {
+        mistakes++;
+        return (mistakes >= MAX_MISTAKES) ? MoveResult.LOSE : MoveResult.MISTAKE;
+    }
+
+    modelBoard.getField(row, col).setValue(entered);
+    return checkWin() ? MoveResult.WIN : MoveResult.OK;
+}
+
+private boolean checkWin() {
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            var f = modelBoard.getField(i, j);
+            if (f.getValue() != f.getCorrectValue()) {
+                return false;
             }
-            return MoveResult.MISTAKE;
         }
-
-        modelBoard.getField(row, col).setValue(entered);
-
-        if (checkWin())
-            return MoveResult.WIN;
-
-        return MoveResult.OK;
     }
-
-    private boolean checkWin() {
-        for (int i = 0; i < 9; i++)
-            for (int j = 0; j < 9; j++)
-                if (field.getValue() != field.getCorrectValue()) {  
-                 return false;
-                }
-        return true;
-    }
+    return true;
 }
 
